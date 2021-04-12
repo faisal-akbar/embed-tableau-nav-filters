@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.7.0.min.js"></script>
+
+    <!-- JS file -->
+
+    <title>Embedding Tableau</title>
+</head>
+
+<body>
+    <!-- Start Navigation -->
+    <div id="topheader">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary static-top" id="main-nav">
+            <div class="container">
+                <a class="navbar-brand" href="#home">Superstore Dashboard
+                    <!-- <img src="assets/icon/Logo.png" alt="logo"> -->
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ml-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active"><a onClick="switchView('Overview')" class="nav-link">Overview</a>
+                        </li>
+                        <li class="nav-item"><a onClick="switchView('Product')" class="nav-link">Product</a></li>
+                        <li class="nav-item"><a onClick="switchView('Customers')" class="nav-link">Customers</a></li>
+                        <li class="nav-item"><a onClick="switchView('Shipping')" class="nav-link">Shipping</a></li>
+                        <li class="nav-item"><a onClick="switchView('Commission Model')" class="nav-link">Commission
+                                Model</a></li>
+                        <li class="nav-item"><a onClick="switchView('Order Details')" class="nav-link">Order Details</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- End Navigation -->
+    <section>
+        <div class="container mt-3 d-flex">
+            <div id="filterContainer" class="d-flex">
+                <div class=" input-group mr-2 filter-size">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button">Segment</button>
+                    </div>
+                    <!-- <select disabled id="segmentChoices" onChange="segmentFilter(value)" class="custom-select" aria-label="Segment Filter"> -->
+                    <select disabled id="segmentChoices" class="custom-select" aria-label="Segment Filter">
+                        <option value="" selected>All</option>
+                        <option value="Consumer">Consumer</option>
+                        <option value="Corporate">Corporate</option>
+                        <option value="Home Office">Home Office</option>
+                    </select>
+                </div>
+
+                <div class="input-group mr-2 filter-size">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button">Category</button>
+                    </div>
+                    <select disabled id="categoryChoices" onChange="categoryFilter(value)" class="custom-select"
+                        aria-label="Category Filter">
+                        <option value="">All</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Office Supplies">Office Supplies</option>
+                        <option value="Technology">Technology</option>
+
+                    </select>
+                </div>
+
+                <div class="input-group mr-2 filter-size">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button">Region</button>
+                    </div>
+                    <select disabled id="regionChoices" onChange="regionFilter(value)" class="custom-select"
+                        aria-label="Region Filter">
+                        <option value="">All</option>
+                        <option value="Central">Central</option>
+                        <option value="East">East</option>
+                        <option value="South">South</option>
+                        <option value="West">West</option>
+                    </select>
+                </div>
+
+                <div class="input-group mr-1 w-25 ">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon1">%Profit
+                            Ratio</button>
+                    </div>
+                    <input disabled id="minValue" type="number" class="form-control" placeholder="-21.7" step=0.1
+                        aria-label="min value" aria-describedby="min-value">
+                    <input disabled id="maxValue" type="number" step=0.1 class="form-control" placeholder="37.0"
+                        aria-label="max value" aria-describedby="max-value">
+                </div>
+
+                <button disabled id="filterButton" type="button" class="btn btn-success mr-3">Apply</button>
+            </div>
+
+            <div class="btn-group">
+                <button disabled id="export" type="button" class="btn btn-secondary dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Export
+                </button>
+                <div class="dropdown-menu">
+                    <a id="pdfExport" class="dropdown-item"><i class="fas fa-file-pdf"></i> PDF</a>
+                    <div class="dropdown-divider"></div>
+                    <a id="powerPointExport" class="dropdown-item"><i class="fas fa-file-powerpoint"></i> PowerPoint</a>
+                    <div class="dropdown-divider"></div>
+                    <a id="crossTabExport" class="dropdown-item"><i class="fas fa-table"></i> CrossTab</a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-head mt-3">
+        <div id="viz-container" class="container">
+            <!-- <div class="row">
+                <div class="col-md-6">
+                    <h4 class="pb-3">Are you ready to Learn?</h4>
+                    <h1>Learn With fun
+                        on <span class="primary-highlight">any schedule</span></h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia iusto rem dolores vitae
+                        repellendus, accusantium explicabo.
+                    </p>
+                    <button class="mt-2 btn btn-primary">Get Started</i>
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <img class="d-block w-100" src="assets/images/Illustration.png">
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Bootstrap js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+    <script src="./app.js"></script>
+
+    <script>
+        $('#topheader .navbar-nav a').on('click', function () {
+            $('#topheader .navbar-nav').find('li.active').removeClass('active');
+            $(this).parent('li').addClass('active');
+        });
+    </script>
+
+</body>
+
+</html>
